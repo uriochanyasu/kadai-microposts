@@ -24,7 +24,11 @@ class User < ApplicationRecord
   
   def following?(other_user)
     self.followings.include?(other_user)
-  end  
+  end
+  
+  def feed_microposts
+    Micropost.where(user_id: self.following_ids + [self.id])
+  end
 
   has_many :likes
   has_many :like_microposts, through: :likes, source: :micropost
